@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .btn-slate {
+        @apply border border-gray-300 p-3 py-1 rounded-lg my-3 bg-slate-100 hover:border-slate-400 active:bg-slate-200
+    }
+
+    .btn-slate-dark {
+        @apply border border-slate-600 p-3 py-1 rounded-lg my-3 bg-slate-700 hover:border-slate-500 active:bg-slate-800 text-slate-100 hover:text-white
+    }
+
+    .btn-rose {
+        @apply border border-rose-700 p-3 py-1 rounded-lg my-3 bg-rose-900 hover:border-rose-500 active:bg-rose-950 text-white
+    }
+
+    .input {
+        @apply border-slate-400 border rounded focus:border-slate-600 outline-none
+    }
+}
+
+@layer utilities {
+    .ltr {
+        direction: ltr;
+    }
+
+    .rtl {
+        direction: rtl;
+    }
+}

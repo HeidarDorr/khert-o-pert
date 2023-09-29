@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "id": 2,
+      "color": {
+        "value": "زرد",
+        "id": "yellow"
+      }
+    },
+    {
+      "id": 12
+    }
+  ]
+}
