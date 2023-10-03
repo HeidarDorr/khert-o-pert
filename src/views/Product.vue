@@ -11,16 +11,6 @@ const router = useRouter()
 const id = ref(+route.params.id)
 
 const product = ref()
-axios('https://fakestoreapi.com/products/' + id.value)
-.then(res => {
-    product.value = res.data
-    document.title = 'مشخصات، قیمت و خرید ' + product.value.title
-    
-    if (!product.value) router.push({ name: 'NotFound' })
-    
-    if (product.value.category === "men's clothing" || product.value.category === "women's clothing") colorBoxHandler()
-    getDataFromBasketStore()
-})
 
 const descriptionP = ref()
 const fullDescription = ref()
@@ -28,19 +18,38 @@ const fullDescription = ref()
 const needExpand = ref(false)
 const count = ref(140)
 
-onMounted(() => {
-    if (descriptionP.value.innerHTML.length > count.value) {
-        needExpand.value = true
-        fullDescription.value = descriptionP.value.innerHTML
-        descriptionCutting()
-    }
-})
+axios('https://fakestoreapi.com/products/' + id.value)
+    .then(res => {
+        product.value = res.data
+        document.title = 'مشخصات، قیمت و خرید ' + product.value.title
+
+        if (!product.value) router.push({ name: 'NotFound' })
+
+        if (product.value.category === "men's clothing" || product.value.category === "women's clothing") colorBoxHandler()
+        getDataFromBasketStore()
+
+        if (product.value.description.length > count.value) {
+            needExpand.value = true
+            fullDescription.value = product.value.description
+            descriptionCutting()
+        }
+    })
+
+// onMounted(() => {
+//     if (descriptionP.value.innerHTML.length > count.value) {
+//         needExpand.value = true
+//         fullDescription.value = product.value.description
+//         descriptionCutting()
+//     }
+// })
 
 function descriptionCutting() {
-    if (descriptionP.value.innerHTML[count.value] === ' ') {
-        descriptionP.value.innerHTML = descriptionP.value.innerHTML.slice(0, count.value).concat('...')
+    if (product.value.description[count.value] === ' ') {
+        setTimeout(() => {
+            descriptionP.value.innerHTML = product.value.description.slice(0, count.value).concat('...')
+        }, 1)
         return
-    } else if (descriptionP.value.innerHTML[count.value]) {
+    } else if (product.value.description[count.value]) {
         count.value++
         descriptionCutting()
     } else {
@@ -250,11 +259,7 @@ input:nth-child(5):checked~.colors label:nth-child(5) {
     outline-offset: 1px;
 }
 
-input:nth-child(1):disabled~.colors label:nth-child(1),
-input:nth-child(2):disabled~.colors label:nth-child(2),
-input:nth-child(3):disabled~.colors label:nth-child(3),
-input:nth-child(4):disabled~.colors label:nth-child(4),
-input:nth-child(5):disabled~.colors label:nth-child(5) {
+input:disabled~.colors label {
     opacity: .4;
 }
 </style>
